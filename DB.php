@@ -31,7 +31,7 @@ class DB
     }
 
     public function create(object $o)
-    {
+    {//TODO befejezni és tesztelni
         $sql = "INSERT INTO `taviranyitok` VALUES (:gyarto, :termek_nev, :megjelenes, :ar :elerheto)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(
@@ -43,5 +43,18 @@ class DB
                 ":elerheto" => $o["elerheto"]
             )
         );
+    }
+
+    public function update(object $o): bool
+    {//TODO befejezni és tesztelni
+        $sql = "UPDATE `taviranyitok` 
+        SET gyarto = ?, 
+            termek_nev = ?, 
+            megjelenes = ?, 
+            ar = ?, 
+            elerheto = ?
+        WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$o["gyarto"], $o["termek_nev"], $o["megjelenes"], $o["ar"], $o["elerheto"], $o["id"],]);
     }
 }

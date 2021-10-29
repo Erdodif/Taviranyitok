@@ -12,7 +12,7 @@ $ok = isset($gyarto) && isset($termek_nev) && isset($ar);
 
 if ($ok) {
     $aktualis = new Taviranyito(
-        $id,
+        $_GET["method"] ?? $_POST["method"] ?? null === "update" ? $id : null,
         $gyarto,
         $termek_nev,
         $megjelenes,

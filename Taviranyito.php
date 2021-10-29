@@ -30,7 +30,6 @@ class Taviranyito
     public function db_frissit()
     {
         if ($this->id !== null) {
-            $temp_db = Taviranyito::$db;
             //id-vel frissíti az adott id-jüt
         } else {
             //id nélkül létrehoz egy újjat
