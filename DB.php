@@ -30,45 +30,18 @@ class DB
         return $res;
     }
 
-    public function create(string $gyarto, string $termek_nev, int $ar, string $megjelenes = null, int $elerheto = 0)
+    public function create(object $o)
     {
-        //TODO : MÉG nem működik
-        $params = [
-            ":gyarto" => $gyarto,
-            ":termek_nev" => $termek_nev,
-            ":ar" => $ar,
-            ":megjelenes" => $megjelenes,
-            ":elerheto" => $elerheto
-        ];
-        if ($megjelenes !== null) {
-            $megjelenes = [
-                "oszlop" => ", `megjelenes`",
-                "param" => ", :megjelenes",
-                "tartalom" => $megjelenes
-            ];
-        } else {
-            $megjelenes = [
-                "oszlop" => "",
-                "param" => "",
-            ];
-            $params += [":megjelenes" => $megjelenes];
-        }
-        if ($elerheto !== null) {
-            $elerheto = [
-                "oszlop" => ", `elerheto`",
-                "param" => ", :elerheto",
-            ];
-            $params += [":elerheto" => $elerheto];
-        } else {
-            $elerheto = [
-                "oszlop" => "",
-                "param" => "",
-                "tartalom" => $elerheto
-            ];
-        }
-        $sql = "INSERT INTO `taviranyitok` (`gyarto`, `termek_nev`,`ar` ".$megjelenes["oszlop"].$elerheto["oszlop"].")
-            VALUES (:gyarto, :termek_nev, :ar, ".$megjelenes["param"].$elerheto["param"].");";
+        $sql = "INSERT INTO `taviranyitok` VALUES (:gyarto, :termek_nev, :megjelenes, :ar :elerheto)";
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute($params);
+        $stmt->execute(
+            array(
+                ":gyarto" => $o["gyarto"],
+                ":termek_nev" => $o["termek_nev"],
+                ":megjelenes" => $o["megjelenes"],
+                ":ar" => $o["ar"],
+                ":elerheto" => $o["elerheto"]
+            )
+        );
     }
 }
