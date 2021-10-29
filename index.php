@@ -1,5 +1,4 @@
 <?php
-require_once "DB.php";
 require_once "Taviranyito.php";
 
 $id = $_GET["id"] ?? $_POST["id"] ?? null;
@@ -39,7 +38,6 @@ try {
         case 'delete':
             break;
         default:
-            echo var_dump($db->read());
             break;
     }
 } catch (Error $e) {
