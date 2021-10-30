@@ -4,10 +4,10 @@ class Taviranyito
 {
     private static DB $db;
     private ?int $id;
-    private string $gyarto;
-    private string $termek_nev;
+    private ?string $gyarto;
+    private ?string $termek_nev;
     private ?string $megjelenes;
-    private int $ar;
+    private ?int $ar;
     private ?int $elerheto;
 
     public static function init()
@@ -32,6 +32,7 @@ class Taviranyito
         if ($this->id !== null) {
             //id-vel frissíti az adott id-jüt
             echo "id-vel frissítene...<br>";
+            Taviranyito::$db->update($this);
         } else {
             //id nélkül létrehoz egy újjat
             echo "id nélkül létrehozna...<br>";

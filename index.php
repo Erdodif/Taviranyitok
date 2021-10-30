@@ -1,6 +1,6 @@
 <?php
 require_once "Taviranyito.php";
-
+//TODO VAlidáció
 $id = $_GET["id"] ?? $_POST["id"] ?? null;
 $gyarto = $_GET["gyarto"] ?? $_POST["gyarto"] ?? null;
 $termek_nev = $_GET["termek_nev"] ?? $_POST["termek_nev"] ?? null;
@@ -19,12 +19,12 @@ if ($ok) {
         $ar,
         $elerheto
     );
-    echo var_dump($aktualis);
+    //echo var_dump($aktualis); ha kéne... 
 }
 try {
     switch ($_GET["method"] ?? $_POST["method"] ?? "read") {
         case 'create':
-            if (isset($aktualis)){
+            if (isset($aktualis)) {
                 $aktualis->db_frissit();
             }
             break;
@@ -37,6 +37,10 @@ try {
             }
             break;
         case 'update':
+            if ($aktualis->getId() === null) {
+                throw new Error("Nincs ID megadva!");
+            }
+             $aktualis->db_frissit();
             break;
         case 'delete':
             break;
@@ -44,5 +48,5 @@ try {
             break;
     }
 } catch (Error $e) {
-    echo var_dump($e);
+    echo $e->getMessage();
 }

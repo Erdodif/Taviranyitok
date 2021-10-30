@@ -35,7 +35,7 @@ class DB
     {
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
-        
+
         $stmt = $this->conn->prepare($sql);
         $gyarto = $o->getGyarto();
         $termek_nev = $o->getTermekNev();
@@ -45,19 +45,40 @@ class DB
             "termek_nev" => $termek_nev,
             "ar" => $ar
         );
-        $stmt->execute($data);
+        return $stmt->execute($data);
     }
 
     public function update(object $o): bool
-    {//TODO befejezni és tesztelni
+    { //TODO befejezni és tesztelni
+        $gyarto = $o->getGyarto();
+        $termek_nev = $o->getTermekNev();
+        $megjelenes = $o->getMegjelenes();
+        $ar = $o->getAr();
+        $elerheto = $o->getElerheto();
         $sql = "UPDATE `taviranyitok` 
-        SET gyarto = ?, 
-            termek_nev = ?, 
-            megjelenes = ?, 
-            ar = ?, 
-            elerheto = ?
-        WHERE id = ?";
+        SET " .
+            ($gyarto === null ? "" : "gyarto = :gyarto, ") .
+            ($termek_nev === null ? "" : "termek_nev = :termek_nev, ") .
+            ($megjelenes === null ? "" : "megjelenes = :megjelenes, ") .
+            ($ar === null ? "" : "ar = :ar, ") .
+            ($elerheto === null ? "" : "elerheto = :elerheto, ");
+        "WHERE id = ?";
+        $data = [];
+        $data = array(
+            "gyarto" => $gyarto,
+            "termek_nev" => $termek_nev,
+            "megjelenes" => $megjelenes,
+            "ar" => $ar,
+            "elerheto" => $elerheto
+        );
+        foreach ($o as $key => $value){
+            if ($value === null){
+                unset($data[$key]);
+            }
+        }
+        echo var_dump($data);
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$o["gyarto"], $o["termek_nev"], $o["megjelenes"], $o["ar"], $o["elerheto"], $o["id"],]);
+        echo var_dump($stmt);
+        return $stmt->execute($data);
     }
 }
