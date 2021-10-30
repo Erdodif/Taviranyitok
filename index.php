@@ -22,8 +22,11 @@ if ($ok) {
     echo var_dump($aktualis);
 }
 try {
-    switch ($_GET["method"] ?? $_POST["method"] ?? null) {
+    switch ($_GET["method"] ?? $_POST["method"] ?? "read") {
         case 'create':
+            if (isset($aktualis)){
+                $aktualis->db_frissit();
+            }
             break;
         case 'read':
             $id = $_GET["id"] ?? $_POST["id"] ?? null !== null;

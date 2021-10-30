@@ -11,6 +11,7 @@ class DB
     }
     public function conn()
     {
+        //nem kell elvileg...
         return $this->conn;
     }
 
@@ -32,17 +33,19 @@ class DB
 
     public function create(object $o)
     {//TODO befejezni és tesztelni
-        $sql = "INSERT INTO `taviranyitok` VALUES (:gyarto, :termek_nev, :megjelenes, :ar :elerheto)";
+        $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
+            VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
+        
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute(
-            array(
-                ":gyarto" => $o["gyarto"],
-                ":termek_nev" => $o["termek_nev"],
-                ":megjelenes" => $o["megjelenes"],
-                ":ar" => $o["ar"],
-                ":elerheto" => $o["elerheto"]
-            )
+        $gyarto = $o->getGyarto();
+        $termek_nev = $o->getTermekNev();
+        $ar = $o->getAr();
+        $data = array(
+            "gyarto" => $gyarto,
+            "termek_nev" => $termek_nev,
+            "ar" => $ar
         );
+        $stmt->execute($data);
     }
 
     public function update(object $o): bool

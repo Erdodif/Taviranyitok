@@ -31,8 +31,11 @@ class Taviranyito
     {
         if ($this->id !== null) {
             //id-vel frissíti az adott id-jüt
+            echo "id-vel frissítene...<br>";
         } else {
             //id nélkül létrehoz egy újjat
+            echo "id nélkül létrehozna...<br>";
+            Taviranyito::$db->create($this);
         }
     }
 
