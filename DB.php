@@ -32,7 +32,7 @@ class DB
     }
 
     public function create(object $o)
-    {//TODO befejezni és tesztelni
+    {
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
         
