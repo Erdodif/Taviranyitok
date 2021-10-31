@@ -10,13 +10,13 @@ class DB
         $this->conn = new PDO('mysql:host=localhost;dbname=taviranyito;charset=utf8', $this->user, $this->pass);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    public function conn()
+    public function conn(): PDO
     {
         //nem kell elvileg...
         return $this->conn;
     }
 
-    public function read(?int $id = null, int $order = TAVIRANYITOK_DEFAULT, int $direction = RENDEZES_NOVEKVO)
+    public function read(?int $id = null, int $order = TAVIRANYITOK_DEFAULT, int $direction = RENDEZES_NOVEKVO): array|false
     {
         $sql = "SELECT * FROM `taviranyitok`";
         $res = null;
@@ -39,7 +39,7 @@ class DB
         return $res;
     }
 
-    public function create(Taviranyito $o)
+    public function create(Taviranyito $o): bool
     { //TODO nem létező id validáció
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
@@ -91,7 +91,7 @@ class DB
         return $stmt->execute($data);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM `taviranyitok` WHERE `id` = :id";
         $stmt = $this->conn->prepare($sql);

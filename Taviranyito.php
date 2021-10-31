@@ -44,24 +44,23 @@ class Taviranyito
 
     public function hibakereso()
     {
+        //TODO
     }
 
-    public function db_frissit()
+    public function db_frissit(): bool
     {
         if ($this->id !== null) {
             //id-vel frissíti az adott id-jüt
-            echo "<br>id-vel frissítene...<br>";
-            Taviranyito::$db->update($this);
+            return Taviranyito::$db->update($this);
         } else {
             //id nélkül létrehoz egy újjat
-            echo "<br>id nélkül létrehozna...<br>";
-            Taviranyito::$db->create($this);
+            return Taviranyito::$db->create($this);
         }
     }
 
-    public function torol()
+    public function torol(): bool
     {
-        Taviranyito::$db->delete($this->getId());
+        return Taviranyito::$db->delete($this->getId());
     }
 
     public static function ujTaviranyito(string $gyarto, string $termek_nev, ?string $megjelenes, int $ar): Taviranyito
@@ -71,7 +70,7 @@ class Taviranyito
 
     public static function db_TaviranyitokMind(int $order = TAVIRANYITOK_DEFAULT, int $direction = 0): array
     {
-        $res = Taviranyito::$db->read(null,$order, $direction);
+        $res = Taviranyito::$db->read(null, $order, $direction);
         $list = [];
         if ($res === false) {
             throw new Error("Üres keresés");
@@ -94,7 +93,7 @@ class Taviranyito
         try {
             $res = Taviranyito::$db->read($id);
             if ($res === false) {
-                throw new Error("Nem létezik");
+                throw new Error("Nem létezik ilyen elem");
             }
             $out = new Taviranyito(
                 $res["id"],
