@@ -50,11 +50,13 @@ class DB
 
     public function update(object $o): bool
     { //TODO befejezni és tesztelni
+        $id = $o->getId();
         $gyarto = $o->getGyarto();
         $termek_nev = $o->getTermekNev();
         $megjelenes = $o->getMegjelenes();
         $ar = $o->getAr();
         $elerheto = $o->getElerheto();
+        //TODO nem létező id validáció
         $sql = "UPDATE `taviranyitok` 
         SET " .
             ($gyarto === null ? "" : "gyarto = :gyarto, ") .
@@ -62,23 +64,22 @@ class DB
             ($megjelenes === null ? "" : "megjelenes = :megjelenes, ") .
             ($ar === null ? "" : "ar = :ar, ") .
             ($elerheto === null ? "" : "elerheto = :elerheto, ");
-        "WHERE id = ?";
-        $data = [];
+        $sql = mb_substr($sql, 0, -2);
+        $sql.= " WHERE id = :id;";
         $data = array(
+            "id" => $id,
             "gyarto" => $gyarto,
             "termek_nev" => $termek_nev,
             "megjelenes" => $megjelenes,
             "ar" => $ar,
             "elerheto" => $elerheto
         );
-        foreach ($o as $key => $value){
+        foreach($o->getMindenTulajdonsag() as $key => $value){
             if ($value === null){
                 unset($data[$key]);
             }
         }
-        echo var_dump($data);
         $stmt = $this->conn->prepare($sql);
-        echo var_dump($stmt);
         return $stmt->execute($data);
     }
 }

@@ -17,7 +17,7 @@ class Taviranyito
         }
     }
 
-    public function __construct(?int $id, string $gyarto, string $termek_nev, ?string $megjelenes, int $ar, ?int $elerheto)
+    public function __construct(?int $id = null, string $gyarto, string $termek_nev, ?string $megjelenes, int $ar, ?int $elerheto)
     {
         $this->id = $id;
         $this->gyarto = $gyarto;
@@ -31,11 +31,11 @@ class Taviranyito
     {
         if ($this->id !== null) {
             //id-vel frissíti az adott id-jüt
-            echo "id-vel frissítene...<br>";
+            echo "<br>id-vel frissítene...<br>";
             Taviranyito::$db->update($this);
         } else {
             //id nélkül létrehoz egy újjat
-            echo "id nélkül létrehozna...<br>";
+            echo "<br>id nélkül létrehozna...<br>";
             Taviranyito::$db->create($this);
         }
     }
@@ -99,6 +99,13 @@ class Taviranyito
     public function getElerheto()
     {
         return $this->elerheto;
+    }
+    public function getMindenTulajdonsag():array{
+        $ki = [];
+        foreach($this as $key=>$value){
+            $ki += array($key => $value);
+        }
+        return $ki;
     }
 }
 Taviranyito::init();

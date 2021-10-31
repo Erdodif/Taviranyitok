@@ -19,7 +19,6 @@ if ($ok) {
         $ar,
         $elerheto
     );
-    //echo var_dump($aktualis); ha kéne... 
 }
 try {
     switch ($_GET["method"] ?? $_POST["method"] ?? "read") {
@@ -37,10 +36,10 @@ try {
             }
             break;
         case 'update':
-            if ($aktualis->getId() === null) {
+            if (!isset($aktualis) || $aktualis->getId() === null) {
                 throw new Error("Nincs ID megadva!");
             }
-             $aktualis->db_frissit();
+            $aktualis->db_frissit($aktualis->getId());
             break;
         case 'delete':
             break;
