@@ -1,15 +1,15 @@
 <?php
-function delete($aktualis)
+function update($aktualis)
 {
     if (!isset($aktualis) || $aktualis->getId() === null) {
         throw new Error("Nincs ID megadva!");
     }
-    $aktualis->torol();
+    $aktualis->db_frissit($aktualis->getId());
 }
 ?><!DOCTYPE html>
 <html lang="hu">
 <head>
-   <?php require_once "header.php"; ?>
+   <?php require_once __DIR__."/../resources/header.php"; ?>
 </head>
 <body>
     

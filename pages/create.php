@@ -8,7 +8,7 @@ function create($aktualis)
 ?><!DOCTYPE html>
 <html lang="hu">
 <head>
-   <?php require_once "header.php"; ?>
+   <?php require_once __DIR__."/../resources/header.php"; ?>
 </head>
 <body>
     

@@ -1,5 +1,5 @@
 <?php
-require_once "Taviranyito.php";
+require_once "data/Taviranyito.php";
 //TODO Validáció
 $method = $_GET["method"] ?? $_POST["method"] ?? null;
 
@@ -24,19 +24,19 @@ $aktualis = new Taviranyito(
 try {
     switch ($_GET["method"] ?? $_POST["method"] ?? "read") {
         case 'create':
-            require_once "create.php";
+            require_once "pages/create.php";
             create($aktualis);
             break;
         case 'read':
-            require_once "read.php";
+            require_once "pages/read.php";
             read($id, $rendezes, $irany);
             break;
         case 'update':
-            require_once "update.php";
+            require_once "pages/update.php";
             update($aktualis);
             break;
         case 'delete':
-            require_once "delete.php";
+            require_once "pages/delete.php";
             delete($aktualis);
             break;
         default:
