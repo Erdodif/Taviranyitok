@@ -11,6 +11,5 @@ function create($aktualis)
    <?php require_once __DIR__."/../resources/header.php"; ?>
 </head>
 <body>
-    
 </body>
 </html>

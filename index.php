@@ -29,7 +29,7 @@ try {
             break;
         case 'read':
             require_once "pages/read.php";
-            read($id, $rendezes, $irany);
+            echo read($id, $rendezes, $irany);
             break;
         case 'update':
             require_once "pages/update.php";
@@ -45,3 +45,4 @@ try {
 } catch (Error $e) {
     echo $e->getMessage();
 }
+?>
