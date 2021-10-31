@@ -7,19 +7,17 @@ $termek_nev = $_GET["termek_nev"] ?? $_POST["termek_nev"] ?? null;
 $megjelenes = $_GET["megjelenes"] ?? $_POST["megjelenes"] ?? null;
 $ar = $_GET["ar"] ?? $_POST["ar"] ?? null;
 $elerheto = $_GET["elerheto"] ?? $_POST["elerheto"] ?? null;
+$rendezes = $_GET["rendezes"] ?? $_POST["rendezes"] ?? null;
+$irany = $_GET["irany"] ?? $_POST["irany"] ?? 0;
 
-$ok = isset($gyarto) && isset($termek_nev) && isset($ar);
-
-if ($ok) {
-    $aktualis = new Taviranyito(
-        $_GET["method"] ?? $_POST["method"] ?? null === "update" ? $id : null,
-        $gyarto,
-        $termek_nev,
-        $megjelenes,
-        $ar,
-        $elerheto
-    );
-}
+$aktualis = new Taviranyito(
+    $_GET["method"] ?? $_POST["method"] ?? null === "update" ? $id : null,
+    $gyarto,
+    $termek_nev,
+    $megjelenes,
+    $ar,
+    $elerheto
+);
 try {
     switch ($_GET["method"] ?? $_POST["method"] ?? "read") {
         case 'create':
@@ -30,9 +28,16 @@ try {
         case 'read':
             $id = $_GET["id"] ?? $_POST["id"] ?? null !== null;
             if (!empty($id)) {
-                echo var_dump(Taviranyito::db_TaviranyitoEgy($id));
+                echo var_dump(Taviranyito::db_TaviranyitoEgy($id))."<br>";
+                echo ($aktualis->letezikIlyenId()?"létezik":"nem létezik")."<br>";
+                echo ($aktualis->teljes()?"helyes":"nem helyes")."<br>";
             } else {
-                echo var_dump(Taviranyito::db_TaviranyitokMind());
+                if (isset($rendezes)){
+                    echo var_dump(Taviranyito::db_TaviranyitokMind(Taviranyito::oszlopNevRendje($rendezes),$irany));
+                }
+                else{
+                    echo var_dump(Taviranyito::db_TaviranyitokMind());
+                }
             }
             break;
         case 'update':
@@ -42,6 +47,10 @@ try {
             $aktualis->db_frissit($aktualis->getId());
             break;
         case 'delete':
+            if (!isset($aktualis) || $aktualis->getId() === null) {
+                throw new Error("Nincs ID megadva!");
+            }
+            $aktualis->torol();
             break;
         default:
             break;

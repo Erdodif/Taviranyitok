@@ -1,4 +1,5 @@
 <?php
+require_once "Taviranyito.php";
 class DB
 {
     private $user = "root";
@@ -15,12 +16,19 @@ class DB
         return $this->conn;
     }
 
-    public function read($id = null)
+    public function read(?int $id = null, int $order = TAVIRANYITOK_DEFAULT, int $direction = RENDEZES_NOVEKVO)
     {
         $sql = "SELECT * FROM `taviranyitok`";
         $res = null;
         if ($id === null) {
-            $stmt = $this->conn->prepare($sql . ";");
+            if ($order === TAVIRANYITOK_DEFAULT && $direction === RENDEZES_NOVEKVO) {
+                $sql .= ";";
+            } else {
+                $param = Taviranyito::getOszlopnev($order);
+                $irany = DB::getOrder($direction);
+                $sql .= "ORDER BY `" . $param . "` " . $irany . ";";
+            }
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
@@ -31,8 +39,8 @@ class DB
         return $res;
     }
 
-    public function create(object $o)
-    {
+    public function create(Taviranyito $o)
+    { //TODO nem létező id validáció
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
 
@@ -48,15 +56,14 @@ class DB
         return $stmt->execute($data);
     }
 
-    public function update(object $o): bool
-    { //TODO befejezni és tesztelni
+    public function update(Taviranyito $o): bool
+    { //TODO nem létező id validáció
         $id = $o->getId();
         $gyarto = $o->getGyarto();
         $termek_nev = $o->getTermekNev();
         $megjelenes = $o->getMegjelenes();
         $ar = $o->getAr();
         $elerheto = $o->getElerheto();
-        //TODO nem létező id validáció
         $sql = "UPDATE `taviranyitok` 
         SET " .
             ($gyarto === null ? "" : "gyarto = :gyarto, ") .
@@ -65,7 +72,8 @@ class DB
             ($ar === null ? "" : "ar = :ar, ") .
             ($elerheto === null ? "" : "elerheto = :elerheto, ");
         $sql = mb_substr($sql, 0, -2);
-        $sql.= " WHERE id = :id;";
+        $sql .= " WHERE id = :id;";
+        //Lehetne a kinullázások helyett additív a paraméterkezelés
         $data = array(
             "id" => $id,
             "gyarto" => $gyarto,
@@ -74,12 +82,34 @@ class DB
             "ar" => $ar,
             "elerheto" => $elerheto
         );
-        foreach($o->getMindenTulajdonsag() as $key => $value){
-            if ($value === null){
+        foreach ($o->getMindenTulajdonsag() as $key => $value) {
+            if ($value === null) {
                 unset($data[$key]);
             }
         }
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
     }
+
+    public function delete(int $id)
+    {
+        $sql = "DELETE FROM `taviranyitok` WHERE `id` = :id";
+        $stmt = $this->conn->prepare($sql);
+        $data = array("id" => $id);
+        return $stmt->execute($data);
+    }
+
+    public static function getOrder(int $order): string
+    {
+        if ($order === RENDEZES_NOVEKVO) {
+            return "ASC";
+        } else if ($order === RENDEZES_CSOKKENO) {
+            return "DESC";
+        } else {
+            throw new Error("Nem megfelelő paraméter!");
+        }
+    }
 }
+
+define("RENDEZES_NOVEKVO", 0);
+define("RENDEZES_CSOKKENO", 1);

@@ -17,7 +17,7 @@ class Taviranyito
         }
     }
 
-    public function __construct(?int $id = null, string $gyarto, string $termek_nev, ?string $megjelenes, int $ar, ?int $elerheto)
+    public function __construct(?int $id = null, ?string $gyarto, ?string $termek_nev, ?string $megjelenes, ?int $ar, ?int $elerheto)
     {
         $this->id = $id;
         $this->gyarto = $gyarto;
@@ -25,6 +25,25 @@ class Taviranyito
         $this->megjelenes = $megjelenes;
         $this->ar = $ar;
         $this->elerheto = $elerheto;
+    }
+
+    public function letezikIlyenId()
+    {
+        return !empty(Taviranyito::$db->read($this->id));
+    }
+
+    public function teljes()
+    {
+        return !(empty($this->id) ||
+            empty($this->gyarto) ||
+            empty($this->termek_nev) ||
+            empty($this->megjelenes) ||
+            ($this->ar !== 0 && empty($this->ar)) ||
+            empty($this->elerheto));
+    }
+
+    public function hibakereso()
+    {
     }
 
     public function db_frissit()
@@ -40,15 +59,23 @@ class Taviranyito
         }
     }
 
+    public function torol()
+    {
+        Taviranyito::$db->delete($this->getId());
+    }
+
     public static function ujTaviranyito(string $gyarto, string $termek_nev, ?string $megjelenes, int $ar): Taviranyito
     {
         return new Taviranyito(null, $gyarto, $termek_nev, $megjelenes, $ar, 0);
     }
 
-    public static function db_TaviranyitokMind(): array
+    public static function db_TaviranyitokMind(int $order = TAVIRANYITOK_DEFAULT, int $direction = 0): array
     {
-        $res = Taviranyito::$db->read();
+        $res = Taviranyito::$db->read(null,$order, $direction);
         $list = [];
+        if ($res === false) {
+            throw new Error("Üres keresés");
+        }
         foreach ($res as $element) {
             $list[] = new Taviranyito(
                 $element["id"],
@@ -62,18 +89,26 @@ class Taviranyito
         return $list;
     }
 
-    public static function db_TaviranyitoEgy(int $id): Taviranyito
+    public static function db_TaviranyitoEgy(int $id): ?Taviranyito
     {
-
-        $res = Taviranyito::$db->read($id);
-        return new Taviranyito(
-            $res["id"],
-            $res["gyarto"],
-            $res["termek_nev"],
-            $res["megjelenes"],
-            $res["ar"],
-            $res["elerheto"]
-        );
+        try {
+            $res = Taviranyito::$db->read($id);
+            if ($res === false) {
+                throw new Error("Nem létezik");
+            }
+            $out = new Taviranyito(
+                $res["id"],
+                $res["gyarto"],
+                $res["termek_nev"],
+                $res["megjelenes"],
+                $res["ar"],
+                $res["elerheto"]
+            );
+        } catch (Error $e) {
+            $out = null;
+        } finally {
+            return $out;
+        }
     }
 
     public function getId()
@@ -100,12 +135,77 @@ class Taviranyito
     {
         return $this->elerheto;
     }
-    public function getMindenTulajdonsag():array{
+    public function getMindenTulajdonsag(): array
+    {
         $ki = [];
-        foreach($this as $key=>$value){
+        foreach ($this as $key => $value) {
             $ki += array($key => $value);
         }
         return $ki;
     }
+
+    public static function getOszlopnev(int $oszlopnev): string
+    {
+        $param = "";
+        switch ($oszlopnev) {
+            case TAVIRANYITOK_DEFAULT:
+            case TAVIRANYITOK_ID:
+                $param = "id";
+                break;
+            case TAVIRANYITOK_GYARTO:
+                $param = "gyarto";
+                break;
+            case TAVIRANYITOK_TERMEKNEV:
+                $param = "termek_nev";
+                break;
+            case TAVIRANYITOK_MEGJELENES:
+                $param = "megjelenes";
+                break;
+            case TAVIRANYITOK_AR:
+                $param = "ar";
+                break;
+            case TAVIRANYITOK_ELERHETO:
+                $param = "elerheto";
+                break;
+            default:
+                throw new Error("Nem megfelelő paraméter!");
+        }
+        return $param;
+    }
+    public static function oszlopNevRendje(?string $oszlopnev)
+    {
+        $param = 0;
+        switch ($oszlopnev) {
+            case null:
+            case "id":
+                $param = TAVIRANYITOK_ID;
+                break;
+            case "gyarto":
+                $param = TAVIRANYITOK_GYARTO;
+                break;
+            case "termek_nev":
+                $param = TAVIRANYITOK_TERMEKNEV;
+                break;
+            case "megjelenes":
+                $param = TAVIRANYITOK_MEGJELENES;
+                break;
+            case "ar":
+                $param = TAVIRANYITOK_AR;
+                break;
+            case "elerheto":
+                $param = TAVIRANYITOK_ELERHETO;
+                break;
+            default:
+                throw new Error("Nem megfelelő paraméter!");
+        }
+        return $param;
+    }
 }
 Taviranyito::init();
+define("TAVIRANYITOK_DEFAULT", 0);
+define("TAVIRANYITOK_ID", 1);
+define("TAVIRANYITOK_GYARTO", 2);
+define("TAVIRANYITOK_TERMEKNEV", 3);
+define("TAVIRANYITOK_MEGJELENES", 4);
+define("TAVIRANYITOK_AR", 5);
+define("TAVIRANYITOK_ELERHETO", 6);
