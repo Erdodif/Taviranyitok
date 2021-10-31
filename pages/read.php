@@ -113,8 +113,8 @@ function kiHTML($tartalom){
         <head>
             ".mb_substr(require(__DIR__.'/../resources/header.php'),1)."
         </head>
-        <body class='d-flex flex-wrap justify-content-center bg-secondary'>
-            <h2 class='col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-primary text-white p-4 text-center'>
+        <body class='d-flex flex-column flex-wrap  justify-content-center align-items-center bg-secondary'>
+            <h2 class='col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-primary text-white py-4 my-0 text-center'>
                 Távirányítók
             </h2>
             <div class='d-flex flex-wrap col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-white p-4'>
