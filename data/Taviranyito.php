@@ -42,11 +42,6 @@ class Taviranyito
             empty($this->elerheto));
     }
 
-    public function hibakereso()
-    {
-        //TODO
-    }
-
     public function db_frissit(): bool
     {
         if ($this->id !== null) {

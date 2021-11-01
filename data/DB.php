@@ -40,10 +40,7 @@ class DB
     }
 
     public function create(Taviranyito $o): bool
-    { //TODO nem létező id validáció
-        if (!$o->letezikIlyenId()) {
-            throw new Error("ilyen elem nem létezik");
-        }
+    { 
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
 
@@ -60,7 +57,7 @@ class DB
     }
 
     public function update(Taviranyito $o): bool
-    { //TODO nem létező id validáció
+    { 
         if (!$o->letezikIlyenId()) {
             throw new Error("ilyen elem nem létezik");
         }

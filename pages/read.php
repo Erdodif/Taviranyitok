@@ -116,7 +116,7 @@ function read($id, $rendezes, $irany, $extra)
     if (!empty($id)) {
         $taviranyito = Taviranyito::db_TaviranyitoEgy($id);
         if ($taviranyito === null) {
-            $extra = extrazo(array("error" => true, "message" => "nem található"));
+            $extra = array("error" => true, "message" => "nem található");
         } else {
             $kartyak .= kartyasit($taviranyito, $irany);
         }

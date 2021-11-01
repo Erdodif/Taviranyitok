@@ -35,7 +35,7 @@ try {
         default:
         case 'read':
             require_once "pages/read.php";
-            echo read(null, $rendezes, $irany, extrazo($extra));
+            echo read(null, $rendezes, $irany, $extra);
             break;
         case 'create':
             require_once "pages/create.php";
@@ -43,18 +43,38 @@ try {
             break;
         case 'update':
             require_once "pages/update.php";
-            echo update($aktualis, extrazo($extra));
+            $ki = update($aktualis, $extra);
+            if ($ki === true) {
+                $extra["error"] = true;
+                $extra["invalids"] = hibaKereso(array(
+                    "id" => $id,
+                    "gyarto" => $gyarto,
+                    "termek_nev" => $termek_nev,
+                    "megjelenes" => $megjelenes,
+                    "ar" => $ar,
+                    "elerheto" => $elerheto,
+                ));
+            } else {
+                echo $ki;
+            }
             break;
     }
 } catch (Error $e) {
     $extra["error"] = true;
     $extra["message"] = $e->getMessage();
     require_once "pages/read.php";
-    echo read($id, $rendezes, $irany, extrazo($extra));
+    echo read($id, $rendezes, $irany, $extra);
 }
+
+function hibakereso(array $params): array|false
+{
+    $hibak = [];
+    return !empty($hibak);
+}
+
 function extrazo(array $extra): string
 {
-    if (!isset($extra["message"])) {
+    if ($extra === null || !isset($extra["message"])) {
         return "";
     }
     $message = $extra["message"];
@@ -99,6 +119,7 @@ function extrazo(array $extra): string
 
 function kiHTML($tartalom, $extra)
 {
+    $extra = extrazo($extra);
     return "
     <!DOCTYPE html>
     <html lang='hu'>
