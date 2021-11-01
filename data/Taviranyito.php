@@ -58,12 +58,12 @@ class Taviranyito
         }
     }
 
-    public function torol(): bool
+    public static function torol(Taviranyito $o): bool
     {
-        return Taviranyito::$db->delete($this);
+        return Taviranyito::$db->delete($o->id);
     }
 
-    public static function ujTaviranyito(string $gyarto, string $termek_nev, ?string $megjelenes, int $ar): Taviranyito
+    public static function ujTaviranyito(?string $gyarto, ?string $termek_nev, ?string $megjelenes, ?int $ar): Taviranyito
     {
         return new Taviranyito(null, $gyarto, $termek_nev, $megjelenes, $ar, 0);
     }

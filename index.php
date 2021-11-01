@@ -14,7 +14,7 @@ $rendezes = $_GET["rendezes"] ?? $_POST["rendezes"] ?? null;
 $irany = $_GET["irany"] ?? $_POST["irany"] ?? RENDEZES_NOVEKVO;
 
 $aktualis = new Taviranyito(
-    $method === ("update" ? $id : ($method === "delete" ? $id : null)),
+    $id,
     $gyarto,
     $termek_nev,
     $megjelenes,
@@ -35,7 +35,7 @@ try {
         default:
         case 'read':
             require_once "pages/read.php";
-            echo read($id, $rendezes, $irany, extrazo($extra));
+            echo read(null, $rendezes, $irany, extrazo($extra));
             break;
         case 'create':
             require_once "pages/create.php";
@@ -49,6 +49,8 @@ try {
 } catch (Error $e) {
     $extra["error"] = true;
     $extra["message"] = $e->getMessage();
+    require_once "pages/read.php";
+    echo read($id, $rendezes, $irany, extrazo($extra));
 }
 function extrazo(array $extra): string
 {

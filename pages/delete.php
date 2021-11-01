@@ -4,5 +4,5 @@ function delete($aktualis)
     if (!isset($aktualis) || $aktualis->getId() === null) {
         throw new Error("Nincs ID megadva!");
     }
-    return $aktualis->torol();
+    return Taviranyito::torol($aktualis);
 }

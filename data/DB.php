@@ -97,19 +97,11 @@ class DB
         return $stmt->execute($data);
     }
 
-    public function delete(Taviranyito $o): bool
+    public function delete(int $id): bool
     {
-        $sql = 'DELETE FROM `taviranyitok` WHERE `id` = :id';
+        $sql = 'DELETE FROM `taviranyitok` WHERE `id` = ?';
         $stmt = $this->conn->prepare($sql);
-        $id = $o->getId();
-        /*
-        $data = array("id" => $o->getId());
-        return $stmt->execute($data);
-        */
-        //$stmt->bindParam('id',$o->getId(), PDO::PARAM_INT);
-        return $stmt->execute(array('id' => $id));
-        //return $stmt->execute();
-        //throw new Error("Ilyen azonosítóval nincs az adatbázisban elem");
+        return $stmt->execute(array($id));
     }
 
     public static function getOrder(int $order): string
