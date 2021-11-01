@@ -13,7 +13,7 @@ $elerheto = $_GET["elerheto"] ?? $_POST["elerheto"] ?? null;
 $rendezes = $_GET["rendezes"] ?? $_POST["rendezes"] ?? null;
 $irany = $_GET["irany"] ?? $_POST["irany"] ?? RENDEZES_NOVEKVO;
 
-$aktualis = new Taviranyito(
+$aktualis = Taviranyito::ujTaviranyito(
     $id,
     $gyarto,
     $termek_nev,
@@ -69,7 +69,10 @@ try {
 function hibakereso(array $params): array|false
 {
     $hibak = [];
-    return !empty($hibak);
+    if(empty($hibak)){
+        return false;
+    }
+    return $hibak;
 }
 
 function extrazo(array $extra): string

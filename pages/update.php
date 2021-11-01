@@ -7,16 +7,16 @@ function update(Taviranyito $aktualis, $extra): string | bool
         throw new Error("Nincs ID megadva!");
     }*/
     $params = array(
-        "id"=> $aktualis->getId(),
-        "gyarto"=> $aktualis->getGyarto(),
-        "termek_nev"=> $aktualis->getTermekNev(),
-        "megjelenes"=> $aktualis->getMegjelenes(),
-        "ar"=> $aktualis->getAr(),
-        "elerheto"=> $aktualis->getElerheto(),
+        "id" => $aktualis->getId(),
+        "gyarto" => $aktualis->getGyarto(),
+        "termek_nev" => $aktualis->getTermekNev(),
+        "megjelenes" => $aktualis->getMegjelenes(),
+        "ar" => $aktualis->getAr(),
+        "elerheto" => $aktualis->getElerheto(),
     );
     if (!hibakereso($params) && isset($_POST["sent"])) {
         $aktualis->db_frissit($aktualis->getId());
-        return read(null,null,null,$extra);
+        return read(null, null, null, $extra);
     }
     return kiHTML(formoz($aktualis), $extra ?? null);
 }
@@ -27,7 +27,7 @@ function formoz(Taviranyito $taviranyito, $method = "update")
     $gyarto = $taviranyito->getGyarto();
     $megjelenes = $taviranyito->getMegjelenes();
     $ar = $taviranyito->getAr();
-    $elerheto = $taviranyito->getElerheto();
+    $elerheto = $taviranyito->getElerheto() === 1 ? "checked" : "";
 
     return  "
     <div class='card col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1 bg-light'>
@@ -48,7 +48,7 @@ function formoz(Taviranyito $taviranyito, $method = "update")
                     <input type='number' id='in_ar' name='ar' value='$ar' placeholder='Ár'>
                 </li>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='checkbox' id='in_elerheto' name='elerheto' value='$elerheto' id='elerheto'>
+                    <input type='checkbox' id='in_elerheto' name='elerheto' $elerheto id='elerheto'>
                     <label for='elerheto'>
                         Elérhető
                     </label>
