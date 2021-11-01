@@ -9,7 +9,7 @@ function delete($aktualis)
 ?><!DOCTYPE html>
 <html lang="hu">
 <head>
-   <?php require_once __DIR__."/../resources/header.php"; ?>
+   <?php require_once __DIR__."/../resources/header.html"; ?>
 </head>
 <body>
     

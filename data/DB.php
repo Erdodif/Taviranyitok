@@ -41,6 +41,9 @@ class DB
 
     public function create(Taviranyito $o): bool
     { //TODO nem létező id validáció
+        if (!$o->letezikIlyenId()){
+            throw new Error("ilyen elem nem létezik");
+        }
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
             VALUES (null, :gyarto, :termek_nev, DEFAULT, :ar, DEFAULT);";
 
@@ -58,6 +61,9 @@ class DB
 
     public function update(Taviranyito $o): bool
     { //TODO nem létező id validáció
+        if (!$o->letezikIlyenId()){
+            throw new Error("ilyen elem nem létezik");
+        }
         $id = $o->getId();
         $gyarto = $o->getGyarto();
         $termek_nev = $o->getTermekNev();
@@ -93,6 +99,9 @@ class DB
 
     public function delete(int $id): bool
     {
+        if (!(new Taviranyito($id,null,null,null,null,null))->letezikIlyenId()){
+            throw new Error("ilyen elem nem létezik");
+        }
         $sql = "DELETE FROM `taviranyitok` WHERE `id` = :id";
         $stmt = $this->conn->prepare($sql);
         $data = array("id" => $id);
