@@ -67,8 +67,8 @@ function kartyasit(Taviranyito $taviranyito): string
                         </a>
                     </li>
                 </ul>
-            <div class='d-flex flex-row flex-wrap px-2 justify-content-between'>
-                <form class='col-12 col-md-6' method='post' class='text-center mt-3'>
+            <div class='row px-2'>
+                <form class='col-12 col-sm-6 text-center mt-3' method='post'>
                     <input type='hidden' name='method' value='update'>
                     <input type='hidden' name='id' value='$id'>
                     <input type='hidden' name='gyarto' value='$gyarto'>
@@ -79,14 +79,9 @@ function kartyasit(Taviranyito $taviranyito): string
                     <input class='btn btn-primary' type='submit' value='Szerkesztés' data-toggle='tooltip' data-placement='top' title='Termék szerkesztése'>
                 </form>
                 
-                <form class='col-12 col-md-6' method='post' class='text-center mt-3'>
+                <form class='col-12 col-sm-6 text-center mt-3' method='post'>
                     <input type='hidden' name='method' value='delete'>
                     <input type='hidden' name='id' value='$id'>
-                    <input type='hidden' name='gyarto' value='$gyarto'>
-                    <input type='hidden' name='termek_nev' value='$termek_nev'>
-                    <input type='hidden' name='megjelenes' value='$megjelenes'>
-                    <input type='hidden' name='ar' value='$ar'>
-                    <input type='hidden' name='elerheto' value='$elerheto'>
                     <input class='btn btn-danger' type='submit' value='Törlés' data-toggle='tooltip' data-placement='top' title='Termék eltávolítása'>
                 </form>
             </div>
@@ -99,7 +94,7 @@ function hany($mit)
     echo var_dump($mit);
 }
 
-function read($id, $rendezes, $irany)
+function read($id, $rendezes, $irany, $extra)
 {
     $kartyak = "";
     $taviranyitok = [];
@@ -131,22 +126,25 @@ function read($id, $rendezes, $irany)
             $kartyak .= kartyasit($elem);
         }
     }
-    return kiHTML($kartyak);
+    return kiHTML($kartyak, $extra);
 }
-function kiHTML($tartalom)
+function kiHTML($tartalom, $extra)
 {
     return "
     <!DOCTYPE html>
     <html lang='hu'>
         <head>
-            " . mb_substr(require(__DIR__ . '/../resources/header.html'), 1) . "
+            " . file_get_contents(__DIR__ . '/../resources/header.html') . "
         </head>
         <body class='d-flex flex-column flex-wrap  justify-content-center align-items-center bg-secondary'>
             <h2 class='col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-primary text-white py-4 my-0 text-center'>
                 Távirányítók
             </h2>
-            <div class='d-flex flex-wrap col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-white p-4'>
+            <div class='d-flex flex-wrap col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-white p-4' id='deck'>
                 $tartalom
+            </div>
+            <div id='extrak'>
+                $extra
             </div>
         </body>
     </html>";

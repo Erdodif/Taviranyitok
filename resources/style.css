@@ -1,3 +1,18 @@
 .btn-light:hover{
     filter: brightness(95%);
 }
+.halovany{
+    filter: brightness(76%);
+    filter: blur(1);
+}
+#extra .badge:hover{
+    color: var(--bs-gray);
+}
+#extra{
+    filter: brightness(1);
+    filter: blur(0);
+    position: fixed;
+    top:0;
+    inset-inline: 0;
+    margin-inline: auto;
+}

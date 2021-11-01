@@ -2,16 +2,13 @@
 function delete($aktualis)
 {
     if (!isset($aktualis) || $aktualis->getId() === null) {
-        throw new Error("Nincs ID megadva!");
+        return array("error" => true, "message" => "Nincs ID megadva!");
     }
-    $aktualis->torol();
+    try {
+        $aktualis->torol();
+        $ki = "Sikeres törlés";
+    } catch (Error $e) {
+        throw new Error($e->getMessage());
+    }
+    return $ki;
 }
-?><!DOCTYPE html>
-<html lang="hu">
-<head>
-   <?php require_once __DIR__."/../resources/header.html"; ?>
-</head>
-<body>
-    
-</body>
-</html>
