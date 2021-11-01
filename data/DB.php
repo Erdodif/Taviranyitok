@@ -41,7 +41,7 @@ class DB
 
     public function create(Taviranyito $o): bool
     { //TODO nem létező id validáció
-        if (!$o->letezikIlyenId()){
+        if (!$o->letezikIlyenId()) {
             throw new Error("ilyen elem nem létezik");
         }
         $sql = "INSERT INTO `taviranyitok` (`id`, `gyarto`, `termek_nev`, `megjelenes`, `ar`, `elerheto`) 
@@ -61,7 +61,7 @@ class DB
 
     public function update(Taviranyito $o): bool
     { //TODO nem létező id validáció
-        if (!$o->letezikIlyenId()){
+        if (!$o->letezikIlyenId()) {
             throw new Error("ilyen elem nem létezik");
         }
         $id = $o->getId();
@@ -97,15 +97,19 @@ class DB
         return $stmt->execute($data);
     }
 
-    public function delete(int $id): bool
+    public function delete(Taviranyito $o): bool
     {
-        if (!(new Taviranyito($id,null,null,null,null,null))->letezikIlyenId()){
-            throw new Error("ilyen elem nem létezik");
-        }
-        $sql = "DELETE FROM `taviranyitok` WHERE `id` = :id";
+        $sql = 'DELETE FROM `taviranyitok` WHERE `id` = :id';
         $stmt = $this->conn->prepare($sql);
-        $data = array("id" => $id);
+        $id = $o->getId();
+        /*
+        $data = array("id" => $o->getId());
         return $stmt->execute($data);
+        */
+        //$stmt->bindParam('id',$o->getId(), PDO::PARAM_INT);
+        return $stmt->execute(array('id' => $id));
+        //return $stmt->execute();
+        //throw new Error("Ilyen azonosítóval nincs az adatbázisban elem");
     }
 
     public static function getOrder(int $order): string

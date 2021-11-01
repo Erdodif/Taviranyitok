@@ -29,7 +29,7 @@ class Taviranyito
 
     public function letezikIlyenId()
     {
-        return !empty(Taviranyito::$db->read($this->id));
+        return !(Taviranyito::$db->read($this->id) === null);
     }
 
     public function teljes()
@@ -60,7 +60,7 @@ class Taviranyito
 
     public function torol(): bool
     {
-        return Taviranyito::$db->delete($this->getId());
+        return Taviranyito::$db->delete($this);
     }
 
     public static function ujTaviranyito(string $gyarto, string $termek_nev, ?string $megjelenes, int $ar): Taviranyito

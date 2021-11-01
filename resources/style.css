@@ -4,6 +4,10 @@
 .halovany{
     filter: brightness(76%);
     filter: blur(1);
+    pointer-events: none;
+    user-select: none;
+    max-height: 89vh;
+    overflow: hidden;
 }
 #extra .badge:hover{
     color: var(--bs-gray);
@@ -15,4 +19,6 @@
     top:0;
     inset-inline: 0;
     margin-inline: auto;
+    pointer-events: all;
+    user-select: auto;
 }
