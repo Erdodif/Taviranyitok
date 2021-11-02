@@ -45,10 +45,10 @@ function formoz(Taviranyito $taviranyito, $method = "update")
         <img class='card-img-top p-2' src='resources/remote-control-svgrepo-com.svg' alt='Távirányító kép'>
         <form class='card-body' method='post' id='in_all'>
             <input class='in' type='hidden' name='id' value='$id' id='in_id'>
-            <div class='card-title text-center col-12' id='parent_termek_nev'>
-                <input type='text' id='in_termek_nev' name='termek_nev' value='$termek_nev' placeholder='termék neve' required>
-            </div>
             <ul class='list-group'>
+                <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_termek_nev'>
+                    <input class='in' type='text' id='in_termek_nev' name='termek_nev' value='$termek_nev' placeholder='termék neve' required>
+                </li>
                 <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_gyarto'>
                     <input class='in' type='text' id='in_gyarto' name='gyarto' value='$gyarto' placeholder='Gyártó' required>
                 </li>
