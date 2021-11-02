@@ -34,7 +34,7 @@ CREATE TABLE `taviranyitok` (
   `id` int(11) NOT NULL,
   `gyarto` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
   `termek_nev` varchar(516) COLLATE utf8_hungarian_ci NOT NULL,
-  `megjelenes` date NOT NULL DEFAULT curdate(),
+  `megjelenes` date NOT NULL,
   `ar` int(11) NOT NULL,
   `elerheto` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
