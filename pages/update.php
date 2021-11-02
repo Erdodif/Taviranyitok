@@ -43,23 +43,23 @@ function formoz(Taviranyito $taviranyito, $method = "update")
     return  "
     <div class='card col-12 col-sm-12 col-md-7 col-lg-5 col-xl-4 p-1 bg-light'>
         <img class='card-img-top p-2' src='resources/remote-control-svgrepo-com.svg' alt='Távirányító kép'>
-        <form class='card-body' method='post'>
-            <input type='hidden' name='id' value='$id' id='in_id'>
-            <div class='card-title text-center col-12'>
+        <form class='card-body' method='post' id='in_all'>
+            <input class='in' type='hidden' name='id' value='$id' id='in_id'>
+            <div class='card-title text-center col-12' id='parent_termek_nev'>
                 <input type='text' id='in_termek_nev' name='termek_nev' value='$termek_nev' placeholder='termék neve' required>
             </div>
             <ul class='list-group'>
-                <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='text' id='in_gyarto' name='gyarto' value='$gyarto' placeholder='Gyártó' required>
+                <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_gyarto'>
+                    <input class='in' type='text' id='in_gyarto' name='gyarto' value='$gyarto' placeholder='Gyártó' required>
                 </li>
-                <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='date' id='in_megjelenes' name='megjelenes' value='$megjelenes' placeholder='Megjelenés' required>
+                <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_megjelenes'>
+                    <input class='in' type='date' id='in_megjelenes' name='megjelenes' value='$megjelenes' placeholder='Megjelenés' required>
                 </li>
-                <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='number' id='in_ar' name='ar' value='$ar' placeholder='Ár' required>
+                <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_ar'>
+                    <input class='in' type='number' id='in_ar' name='ar' value='$ar' placeholder='Ár' required>
                 </li>
-                <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='checkbox' id='in_elerheto' name='elerheto' $elerheto id='elerheto'>
+                <li class='list-group-item d-flex flex-column justify-content-between align-items-center' id='parent_elerheto'>
+                    <input class='in' type='checkbox' id='in_elerheto' name='elerheto' $elerheto id='elerheto'>
                     <label for='elerheto'>
                         Elérhető
                     </label>

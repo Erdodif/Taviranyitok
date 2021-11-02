@@ -44,3 +44,7 @@
 #deck{
     justify-content: space-around;
 }
+.hiba {
+    color: var(--bs-danger);
+    font-size: .7rem;
+}
