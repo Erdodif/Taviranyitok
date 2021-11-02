@@ -89,6 +89,35 @@ try {
 function hibakereso(array $params): array|false
 {
     $hibak = [];
+    $termek_nevHossz = mb_strlen($params["termek_nev"]);
+    $gyartoHossz = mb_strlen($params["gyarto"]);
+    if($termek_nevHossz < 5){
+        $hibak []= "A termék neve minimum 5 karakter hosszú legyen (most $termek_nevHossz hosszú)!";
+    }
+    if($termek_nevHossz > 20){
+        $hibak []= "A termék neve maximum 20 karakter hosszú legyen (most $termek_nevHossz hosszú)!";
+    }
+    if($gyartoHossz < 2){
+        $hibak []= "A gyártó hossza minimum 2 karakter kell, hogy legyen (most $termek_nevHossz hosszú)!";
+    }
+    if($gyartoHossz > 20){
+        $hibak []= "A gyártó hossza maximum csak 20 karakter lehet (most $termek_nevHossz hosszú)!";
+    }
+    try{
+        $ki = new DateTime($params["megjelenes"]);
+    }
+    catch(Exception $e){
+        $hibak[]= "A megjelenés dátuma nem helyes!";
+    }
+    if($params["megjelenes"]==="0000-00-00"){
+        $hibak[]= "A megjelenés dátuma nincs megadva!";
+    }
+    if(!is_numeric($params["ar"])){
+        $hibak[]= "Az árnak számnak kell lennie!";
+    }
+    else if($params["ar"] < 0){
+        $hibak[]= "Az ár nem lehet negatív!";
+    }
     if (empty($hibak)) {
         return false;
     }
@@ -97,10 +126,10 @@ function hibakereso(array $params): array|false
 
 function extrazo(array $extra): string
 {
-    if ($extra === null || !isset($extra["message"])) {
+    if ($extra === null ||( !isset($extra["message"]) && !isset($extra["invalids"]))) {
         return "";
     }
-    $message = $extra["message"];
+    $message = $extra["message"] ?? "";
     $vissza = "
         <a href='index.php' class='badge btn btn-danger bg-danger float-end' id='extra-remove'>
             X

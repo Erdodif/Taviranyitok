@@ -3,6 +3,7 @@ require_once "index.php";
 require_once "read.php";
 function update(Taviranyito $aktualis, $extra): string | bool
 {
+    /*
     $params = array(
         "id" => $aktualis->getId(),
         "gyarto" => $aktualis->getGyarto(),
@@ -10,12 +11,18 @@ function update(Taviranyito $aktualis, $extra): string | bool
         "megjelenes" => $aktualis->getMegjelenes(),
         "ar" => $aktualis->getAr(),
         "elerheto" => $aktualis->getElerheto(),
-    );
-    if (!hibakereso($params) && isset($_POST["sent"])) {
+    );*/
+    $params = $aktualis->getMindenTulajdonsag();
+    $result = hibakereso($params);
+    if (!$result && isset($_POST["sent"])) {
         $aktualis->db_frissit($aktualis->getId());
         $extra["error"]=false;
         $extra["message"]="Elem szerkesztve!";
         return read(null, null, null, $extra);
+    }
+    if ($result!==false){
+        $extra["error"] = true;
+        $extra["invalids"] = $result;
     }
     return kiHTML(formoz($aktualis), $extra ?? null);
 }

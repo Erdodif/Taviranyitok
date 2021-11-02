@@ -58,9 +58,9 @@ class Taviranyito
         return Taviranyito::$db->delete($o->id);
     }
 
-    public static function ujTaviranyito(?int $id = null, ?string $gyarto, ?string $termek_nev, ?string $megjelenes, ?int $ar, ?string $elerheto): Taviranyito
+    public static function ujTaviranyito(?int $id = null, ?string $gyarto, ?string $termek_nev, ?string $megjelenes, ?string $ar, ?string $elerheto): Taviranyito
     {
-        return new Taviranyito($id, $gyarto, $termek_nev, $megjelenes, $ar, ($elerheto === "on" ? 1 : 0));
+        return new Taviranyito($id, $gyarto, $termek_nev, $megjelenes, (is_numeric($ar)?(int)$ar:null), ($elerheto === "on" ? 1 : 0));
     }
 
     public static function db_TaviranyitokMind(int $order = TAVIRANYITOK_DEFAULT, int $direction = 0): array
