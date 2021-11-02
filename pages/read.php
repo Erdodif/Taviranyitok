@@ -79,7 +79,7 @@ function kartyasit(Taviranyito $taviranyito, $irany): string
                         <input type='hidden' name='termek_nev' value='$termek_nev'>
                         <input type='hidden' name='megjelenes' value='$megjelenes'>
                         <input type='hidden' name='ar' value='$ar'>
-                        <button type='submit' name='elerheto' value='$flip' class='elerhetoek' id='elerheto_$id'>   
+                        <button type='submit' name='elerheto' value='$flip' class='elerhetoek px-1 py-0' id='elerheto_$id'>   
                             $elerheto
                         </button>
                     </form>
@@ -141,5 +141,5 @@ function read($id, $rendezes, $irany, $extra)
             $kartyak .= kartyasit($elem, $irany);
         }
     }
-    return kiHTML($kartyak, $extra);
+    return kiHTML($kartyak, $extra, true);
 }

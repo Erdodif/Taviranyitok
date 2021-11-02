@@ -2,10 +2,7 @@
 require_once "index.php";
 require_once "read.php";
 function update(Taviranyito $aktualis, $extra): string | bool
-{/*
-    if (!isset($aktualis) || $aktualis->getId() === null) {
-        throw new Error("Nincs ID megadva!");
-    }*/
+{
     $params = array(
         "id" => $aktualis->getId(),
         "gyarto" => $aktualis->getGyarto(),
@@ -16,13 +13,20 @@ function update(Taviranyito $aktualis, $extra): string | bool
     );
     if (!hibakereso($params) && isset($_POST["sent"])) {
         $aktualis->db_frissit($aktualis->getId());
+        $extra["error"]=false;
+        $extra["message"]="Elem szerkesztve!";
         return read(null, null, null, $extra);
     }
     return kiHTML(formoz($aktualis), $extra ?? null);
 }
 function formoz(Taviranyito $taviranyito, $method = "update")
 {
-    $id = $taviranyito->getId();
+    if($method ==="update"){
+        $id = $taviranyito->getId();
+    }
+    else{
+        $id = "";
+    }
     $termek_nev = $taviranyito->getTermekNev();
     $gyarto = $taviranyito->getGyarto();
     $megjelenes = $taviranyito->getMegjelenes();
@@ -35,17 +39,17 @@ function formoz(Taviranyito $taviranyito, $method = "update")
         <form class='card-body' method='post'>
             <input type='hidden' name='id' value='$id' id='in_id'>
             <div class='card-title text-center col-12'>
-                <input type='text' id='in_termek_nev' name='termek_nev' value='$termek_nev' placeholder='termék neve'>
+                <input type='text' id='in_termek_nev' name='termek_nev' value='$termek_nev' placeholder='termék neve' required>
             </div>
             <ul class='list-group'>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='text' id='in_gyarto' name='gyarto' value='$gyarto' placeholder='Gyártó'>
+                    <input type='text' id='in_gyarto' name='gyarto' value='$gyarto' placeholder='Gyártó' required>
                 </li>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='date' id='in_megjelenes' name='megjelenes' value='$megjelenes' placeholder='Megjelenés'>
+                    <input type='date' id='in_megjelenes' name='megjelenes' value='$megjelenes' placeholder='Megjelenés' required>
                 </li>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    <input type='number' id='in_ar' name='ar' value='$ar' placeholder='Ár'>
+                    <input type='number' id='in_ar' name='ar' value='$ar' placeholder='Ár' required>
                 </li>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
                     <input type='checkbox' id='in_elerheto' name='elerheto' $elerheto id='elerheto'>

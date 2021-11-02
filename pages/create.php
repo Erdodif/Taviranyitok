@@ -1,15 +1,21 @@
 <?php
-function create($aktualis)
+require_once "index.php";
+require_once "update.php";
+function create(Taviranyito $aktualis, $extra): string | bool
 {
-    if (isset($aktualis)) {
+    $params = array(
+        "id" => null,
+        "gyarto" => $aktualis->getGyarto(),
+        "termek_nev" => $aktualis->getTermekNev(),
+        "megjelenes" => $aktualis->getMegjelenes(),
+        "ar" => $aktualis->getAr(),
+        "elerheto" => $aktualis->getElerheto(),
+    );
+    if (!hibakereso($params) && isset($_POST["sent"])) {
         $aktualis->db_frissit();
+        $extra["error"]=false;
+        $extra["message"]="A hozzáadás sikeres!";
+        return read(null, null, null, $extra);
     }
+    return kiHTML(formoz($aktualis, "create"), $extra ?? null);
 }
-?><!DOCTYPE html>
-<html lang="hu">
-<head>
-   <?php require_once __DIR__."/../resources/header.html"; ?>
-</head>
-<body>
-</body>
-</html>

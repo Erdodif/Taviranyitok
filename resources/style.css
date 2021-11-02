@@ -9,6 +9,12 @@
     max-height: 89vh;
     overflow: hidden;
 }
+.elerhetoek{
+    border-radius: 10em;
+}
+.bogyo{
+    font-size: .6em;
+}
 #extra .badge:hover{
     color: var(--bs-gray);
 }
@@ -21,4 +27,17 @@
     margin-inline: auto;
     pointer-events: all;
     user-select: auto;
+}
+.uj{
+    justify-content: center;
+}
+.ujgomb{
+    font-size: 4rem;
+    font-weight: bold;
+    align-self: center;
+    text-align: center;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 0;
+    padding-block: 0;
 }

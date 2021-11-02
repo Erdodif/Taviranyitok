@@ -2,8 +2,10 @@
 require_once "data/Taviranyito.php";
 //TODO Validáció
 $method = $_GET["method"] ?? $_POST["method"] ?? "read";
-
 $id = $_GET["id"] ?? $_POST["id"] ?? null;
+if ($id !== null && !is_numeric($id)) {
+    $id = null;
+}
 $gyarto = $_GET["gyarto"] ?? $_POST["gyarto"] ?? null;
 $termek_nev = $_GET["termek_nev"] ?? $_POST["termek_nev"] ?? null;
 $megjelenes = $_GET["megjelenes"] ?? $_POST["megjelenes"] ?? null;
@@ -39,7 +41,20 @@ try {
             break;
         case 'create':
             require_once "pages/create.php";
-            $extra["message"] = create($aktualis);
+            $ki = create($aktualis, $extra);
+            if ($ki === true) {
+                $extra["error"] = true;
+                $extra["invalids"] = hibaKereso(array(
+                    "id" => $id,
+                    "gyarto" => $gyarto,
+                    "termek_nev" => $termek_nev,
+                    "megjelenes" => $megjelenes,
+                    "ar" => $ar,
+                    "elerheto" => $elerheto,
+                ));
+            } else {
+                echo $ki;
+            }
             break;
         case 'update':
             require_once "pages/update.php";
@@ -125,8 +140,21 @@ function extrazo(array $extra): string
     ";
 }
 
-function kiHTML($tartalom, $extra)
+function kiHTML($tartalom, $extra, $read = false)
 {
+    $uj = "";
+    if ($read) {
+        $uj = "
+        <form method='post' class='card col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1'>
+            <img class='card-img-top p-2' src='resources/remote-control-svgrepo-com.svg' alt='Távirányító kép'>
+            <div class='card-body d-flex flex-column no-wrap uj'>
+                <button type='submit' name='method' value='create' class='btn btn-primary ujgomb' data-toggle='tooltip' data-placement='top' title='Új távirányító hozzáadása'>
+                    +
+                </button>
+            </div>
+        </form>
+        ";
+    }
     $extra = extrazo($extra);
     return "
     <!DOCTYPE html>
@@ -135,11 +163,12 @@ function kiHTML($tartalom, $extra)
             " . file_get_contents(__DIR__ . '/resources/header.html') . "
         </head>
         <body class='d-flex flex-column flex-wrap  justify-content-center align-items-center bg-secondary'>
-            <h2 class='col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-primary text-white py-4 my-0 text-center'>
+            <h2 class='col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 bg-primary text-white py-4 my-0 text-center'>
                 Távirányítók
             </h2>
-            <div class='d-flex flex-wrap col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 bg-white p-4' id='deck'>
+            <div class='d-flex flex-wrap col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 bg-white p-4' id='deck'>
                 $tartalom
+                $uj
             </div>
             <div id='extrak'>
                 $extra
