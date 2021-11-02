@@ -41,7 +41,7 @@ function formoz(Taviranyito $taviranyito, $method = "update")
     $elerheto = $taviranyito->getElerheto() === 1 ? "checked" : "";
 
     return  "
-    <div class='card col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1 bg-light'>
+    <div class='card col-12 col-sm-12 col-md-7 col-lg-5 col-xl-4 p-1 bg-light'>
         <img class='card-img-top p-2' src='resources/remote-control-svgrepo-com.svg' alt='Távirányító kép'>
         <form class='card-body' method='post'>
             <input type='hidden' name='id' value='$id' id='in_id'>
