@@ -58,6 +58,11 @@ try {
                 echo $ki;
             }
             break;
+        case 'flip':
+            $aktualis->db_frissit();
+            require_once "pages/read.php";
+            echo read(null, $rendezes, $irany, $extra);
+            break;
     }
 } catch (Error $e) {
     $extra["error"] = true;
@@ -69,7 +74,7 @@ try {
 function hibakereso(array $params): array|false
 {
     $hibak = [];
-    if(empty($hibak)){
+    if (empty($hibak)) {
         return false;
     }
     return $hibak;

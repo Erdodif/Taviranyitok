@@ -20,6 +20,7 @@ function kartyasit(Taviranyito $taviranyito, $irany): string
     $megjelenes = $taviranyito->getMegjelenes();
     $ar = $taviranyito->getAr();
     $elerheto = $taviranyito->getElerheto();
+    $flip = $elerheto === 1 ? '0' : 'on';
 
 
     return "
@@ -71,7 +72,17 @@ function kartyasit(Taviranyito $taviranyito, $irany): string
                     </a>
                 </li>
                 <li class='list-group-item d-flex justify-content-between align-items-center'>
-                    $elerheto
+                    <form method='post'>
+                        <input type='hidden' name='method' value='flip' hidden>
+                        <input type='hidden' name='id' value='$id'>
+                        <input type='hidden' name='gyarto' value='$gyarto'>
+                        <input type='hidden' name='termek_nev' value='$termek_nev'>
+                        <input type='hidden' name='megjelenes' value='$megjelenes'>
+                        <input type='hidden' name='ar' value='$ar'>
+                        <button type='submit' name='elerheto' value='$flip' class='elerhetoek' id='elerheto_$id'>   
+                            $elerheto
+                        </button>
+                    </form>
                     <a href='../index.php'>
                         <form class='badge badge-pill m-0 p-0' method='post' data-toggle='tooltip' data-placement='top' title='Előre az elérhetőeket'>
                             <input type='hidden' name='method' value='read'>
