@@ -36,13 +36,10 @@ function hibaKreal(id,szoveg){
     temp.id = ("in_"+id+"_hiba");
     temp.classList.add("hiba");
     temp.innerHTML = szoveg;
-    console.log(temp);
     tempSzulo.appendChild(temp);
 }
 
 function validacio(kuldes = false){
-    //todo hiba megjelenítése
-    console.log("validacio kezdete");
     let termek_nev = document.getElementById("in_termek_nev").value;
     let gyarto = document.getElementById("in_gyarto").value;
     let megjelenes = document.getElementById("in_megjelenes").value;

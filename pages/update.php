@@ -3,15 +3,6 @@ require_once "index.php";
 require_once "read.php";
 function update(Taviranyito $aktualis, $extra): string | bool
 {
-    /*
-    $params = array(
-        "id" => $aktualis->getId(),
-        "gyarto" => $aktualis->getGyarto(),
-        "termek_nev" => $aktualis->getTermekNev(),
-        "megjelenes" => $aktualis->getMegjelenes(),
-        "ar" => $aktualis->getAr(),
-        "elerheto" => $aktualis->getElerheto(),
-    );*/
     $params = $aktualis->getMindenTulajdonsag();
     $result = hibakereso($params);
     if (!$result && isset($_POST["sent"])) {
