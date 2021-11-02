@@ -98,10 +98,10 @@ function hibakereso(array $params): array|false
         $hibak []= "A termék neve maximum 20 karakter hosszú legyen (most $termek_nevHossz hosszú)!";
     }
     if($gyartoHossz < 2){
-        $hibak []= "A gyártó hossza minimum 2 karakter kell, hogy legyen (most $termek_nevHossz hosszú)!";
+        $hibak []= "A gyártó hossza minimum 2 karakter kell, hogy legyen (most $gyartoHossz hosszú)!";
     }
     if($gyartoHossz > 20){
-        $hibak []= "A gyártó hossza maximum csak 20 karakter lehet (most $termek_nevHossz hosszú)!";
+        $hibak []= "A gyártó hossza maximum csak 20 karakter lehet (most $gyartoHossz hosszú)!";
     }
     try{
         $ki = new DateTime($params["megjelenes"]);
